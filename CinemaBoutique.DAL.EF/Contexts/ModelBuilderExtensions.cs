@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 
-
-namespace Cinema_Boutique.Data
+namespace CinemaBoutique.DAL.EF.Data
 {
     public static class ModelBuilderExtensions
     {

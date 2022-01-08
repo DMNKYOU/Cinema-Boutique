@@ -1,11 +1,8 @@
 ﻿using CinemaBoutique.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Cinema_Boutique.Data
+namespace CinemaBoutique.DAL.EF.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
