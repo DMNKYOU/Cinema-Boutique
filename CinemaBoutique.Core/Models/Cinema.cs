@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CinemaBoutique.Core.Models
@@ -18,5 +19,6 @@ namespace CinemaBoutique.Core.Models
         public string Town { get; set; }
 
         //связь
+        public ICollection<FilmStrip> FilmStrips { get; set; }
     }
 }

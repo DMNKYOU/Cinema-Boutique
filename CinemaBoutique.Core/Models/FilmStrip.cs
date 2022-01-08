@@ -22,5 +22,6 @@ namespace CinemaBoutique.Core.Models
 
         //связь 
         public ICollection<Actor> Actors { get; set; }
+        public ICollection<Cinema> Cinemas { get; set; }
     }
 }
