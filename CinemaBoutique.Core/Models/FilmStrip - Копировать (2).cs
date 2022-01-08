@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CinemaBoutique.Core
+namespace CinemaBoutique.Core.Models
 {
     public class Class1
     {

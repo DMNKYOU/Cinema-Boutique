@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CinemaBoutique.Core
+namespace CinemaBoutique.Core.Models
 {
     public class Actor
     {
@@ -12,6 +12,7 @@ namespace CinemaBoutique.Core
 
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
+        public string Biography { get; set; }
 
         //многие ко многим свзязь добавить
     }

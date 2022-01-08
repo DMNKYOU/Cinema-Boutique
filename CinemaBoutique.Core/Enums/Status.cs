@@ -1,4 +1,4 @@
-﻿namespace BusStationCRM.BLL.Enums
+﻿namespace CinemaBoutique.Core.Enums
 {
     public enum Status
     {
