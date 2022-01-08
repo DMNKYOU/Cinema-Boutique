@@ -16,4 +16,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaBoutique.Core\CinemaBoutique.Core.csproj" />
+  </ItemGroup>
+
 </Project>

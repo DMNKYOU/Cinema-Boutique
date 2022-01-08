@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CinemaBoutique.Core.Models
@@ -13,14 +14,13 @@ namespace CinemaBoutique.Core.Models
         public int AgeLimit { get; set; } ////////////////
         public string BriefDescription { get; set; }
         public string FullDescription { get; set; }
+        public string ProductionCountry { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
-        public string ProductionCountry { get; set; }
         public int FilmDuration { get; set; }
 
-        
-
-
+        //связь 
+        public ICollection<Actor> Actors { get; set; }
     }
 }
