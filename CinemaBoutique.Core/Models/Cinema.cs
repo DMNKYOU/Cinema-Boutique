@@ -20,5 +20,6 @@ namespace CinemaBoutique.Core.Models
 
         //связь
         public ICollection<FilmStrip> FilmStrips { get; set; }
+        public ICollection<CinemaFilmStrip> CinemaFilmStrips { get; set; }
     }
 }

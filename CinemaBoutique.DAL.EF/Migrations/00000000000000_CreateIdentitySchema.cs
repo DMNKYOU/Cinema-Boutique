@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CinemaBoutique.DAL.EF.Data.Migrations
 {
