@@ -4,14 +4,16 @@ using CinemaBoutique.DAL.EF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaBoutique.DAL.EF.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220218193656_changeKeyConnection")]
+    partial class changeKeyConnection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +102,12 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ShowDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("SessionPrice")
                         .ValueGeneratedOnAdd()
@@ -110,7 +117,7 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.Property<string>("Title")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Title session");
+                        .HasDefaultValue("def");
 
                     b.HasKey("CinemaId", "FilmStripId", "ShowDate");
 

@@ -17,7 +17,7 @@ namespace CinemaBoutique.DAL.EF.Repositories
         {
             return _context.Cinemas.AsNoTracking()
                 .Include(s => s.FilmStrips)
-                .Include(s => s.CinemaFilmStrips)
+                .Include(s => s.FilmSessions)
                 .SingleOrDefaultAsync(sr => sr.Id == id);
         }
 
@@ -25,7 +25,7 @@ namespace CinemaBoutique.DAL.EF.Repositories
         {
             return _context.Cinemas
                 .Include(s => s.FilmStrips)
-                .Include(s => s.CinemaFilmStrips)
+                .Include(s => s.FilmSessions)
                 .ToListAsync();
         }
     }

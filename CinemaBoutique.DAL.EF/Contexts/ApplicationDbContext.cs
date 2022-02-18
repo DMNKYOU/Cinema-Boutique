@@ -1,4 +1,5 @@
-﻿using CinemaBoutique.Core.Models;
+﻿using System;
+using CinemaBoutique.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ namespace CinemaBoutique.DAL.EF.Data
         public DbSet<Cinema> Cinemas { get; set; } = default!;
         public DbSet<Actor> Actors { get; set; } = default!;
         public DbSet<FilmStrip> FilmStrips { get; set; } = default!;
+        public DbSet<FilmSession> FilmSession { get; set; } = default!;
 
         public ApplicationDbContext() : base() { }
 
@@ -21,22 +23,22 @@ namespace CinemaBoutique.DAL.EF.Data
             modelBuilder.Entity<Cinema>()
                 .HasMany(c => c.FilmStrips)
                 .WithMany(s => s.Cinemas)
-                .UsingEntity<CinemaFilmStrip>(j => j
+                .UsingEntity<FilmSession>(j => j
                         .HasOne(pt => pt.FilmStrip)
-                        .WithMany(t => t.CinemaFilmStrips)
+                        .WithMany(t => t.FilmSessions)
                         .HasForeignKey(pt => pt.FilmStripId),
                     j => j
                         .HasOne(pt => pt.Cinema)
-                        .WithMany(p => p.CinemaFilmStrips)
+                        .WithMany(p => p.FilmSessions)
                         .HasForeignKey(pt => pt.CinemaId),
                     j =>
                     {
-                        j.Property(pt => pt.Title);
-                        j.Property(pt => pt.SessionPrice);
-                        j.Property(pt => pt.ShowDate);
-                        j.Property(pt => pt.Id);
-                        j.HasKey(t => new { t.CinemaId, t.FilmStripId, t.Id });
-                        j.ToTable("CinemaFilmStrip");
+                        j.Property(pt => pt.Title).HasDefaultValue("Title session");
+                        j.Property(pt => pt.SessionPrice).HasDefaultValue(10);
+                        j.Property(pt => pt.ShowDate);//.HasDefaultValue(new DateTime());
+                        //j.Property(pt => pt.Id);
+                        j.HasKey(t => new { t.CinemaId, t.FilmStripId, t.ShowDate });
+                        j.ToTable("FilmSession");
                     });
 
             modelBuilder.Seed();

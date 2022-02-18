@@ -20,9 +20,8 @@ namespace CinemaBoutique.Core.Models
         public DateTime ReleaseDate { get; set; }
         public int FilmDuration { get; set; }
 
-        //связь 
-        public ICollection<Actor> Actors { get; set; }
-        public ICollection<Cinema> Cinemas { get; set; }
-        public ICollection<CinemaFilmStrip> CinemaFilmStrips { get; set; }
+        public ICollection<Actor> Actors { get; set; } = new List<Actor>();
+        public ICollection<Cinema> Cinemas { get; set; } = new List<Cinema>();
+        public ICollection<FilmSession> FilmSessions { get; set; } = new List<FilmSession>();
     }
 }

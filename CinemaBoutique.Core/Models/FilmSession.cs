@@ -2,9 +2,9 @@
 
 namespace CinemaBoutique.Core.Models
 {
-    public class CinemaFilmStrip
+    public class FilmSession
     {
-        public int Id { get; set; }
+       // public Guid Id { get; set; }
         public int CinemaId { get; set; } 
         public Cinema Cinema { get; set; }
         public int FilmStripId { get; set; }

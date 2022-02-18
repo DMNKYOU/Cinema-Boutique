@@ -4,14 +4,16 @@ using CinemaBoutique.DAL.EF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CinemaBoutique.DAL.EF.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220120185436_ManyManyCinemaFilmstripChanged")]
+    partial class ManyManyCinemaFilmstripChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,24 +101,25 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.Property<int>("FilmStripId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"));
+
+                    b.Property<int>("SessionPrice")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ShowDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SessionPrice")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(10);
-
                     b.Property<string>("Title")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Title session");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CinemaId", "FilmStripId", "ShowDate");
+                    b.HasKey("CinemaId", "FilmStripId", "Id");
 
                     b.HasIndex("FilmStripId");
 
-                    b.ToTable("FilmSession");
+                    b.ToTable("CinemaFilmStrip");
                 });
 
             modelBuilder.Entity("CinemaBoutique.Core.Models.FilmStrip", b =>
