@@ -18,7 +18,6 @@ namespace CinemaBoutique.Core.Models
         public string PhoneNumber { get; set; }
         public string Town { get; set; }
 
-        //связь
         public ICollection<FilmStrip> FilmStrips { get; set; } = new List<FilmStrip>();
         public ICollection<FilmSession> FilmSessions { get; set; } = new List<FilmSession>();
     }

@@ -1,0 +1,94 @@
+﻿@using CinemaBoutique.Core.Enums
+@model FilmStripModel
+
+@{
+    string action = null;
+    if (Model.Id != 0)
+    {
+        action = "Edit";
+    }
+    else
+    {
+        action = "Add";
+    }
+    ViewData["Title"] = $"{action}";
+}
+
+<div class="content">
+    <h1>@action #@Model.Id</h1>
+    <div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form method="post" asp-controller="FilmStrips" asp-action="Edit" asp-route-id="@Model.Id">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="mb-3 row">
+                        <label asp-for="Title" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="Title" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Title)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Genre" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" asp-for="Genre" asp-items="Html.GetEnumSelectList<GenreType>()">
+                                <option value="">Select genre</option>
+                            </select>
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Genre)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Category" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<CategoryType>()">
+                            </select>
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Category)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="BriefDescription" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="BriefDescription" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.BriefDescription)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="FullDescription" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="FullDescription" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.FullDescription)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ProductionCountry" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="ProductionCountry" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.ProductionCountry)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ReleaseDate" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="date" asp-for="ReleaseDate" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.ReleaseDate)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" asp-for="FilmDuration"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="number" asp-for="FilmDuration" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.FilmDuration)</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success text-center">@action info</button>
+                </form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial.cshtml")
+}

@@ -11,6 +11,8 @@ namespace CinemaBoutique.DAL.EF.Data
         public DbSet<Actor> Actors { get; set; } = default!;
         public DbSet<FilmStrip> FilmStrips { get; set; } = default!;
         public DbSet<FilmSession> FilmSession { get; set; } = default!;
+        public new DbSet<User> Users { get; set; } = default!;
+        public new DbSet<Ticket> Tickets { get; set; } = default!;
 
         public ApplicationDbContext() : base() { }
 
@@ -33,11 +35,10 @@ namespace CinemaBoutique.DAL.EF.Data
                         .HasForeignKey(pt => pt.CinemaId),
                     j =>
                     {
-                        j.Property(pt => pt.Title).HasDefaultValue("Title session");
                         j.Property(pt => pt.SessionPrice).HasDefaultValue(10);
-                        j.Property(pt => pt.ShowDate);//.HasDefaultValue(new DateTime());
-                        //j.Property(pt => pt.Id);
-                        j.HasKey(t => new { t.CinemaId, t.FilmStripId, t.ShowDate });
+                        j.Property(pt => pt.ShowDate).HasDefaultValue(DateTime.Now);
+                        j.Property(pt => pt.Id);
+                        j.HasKey(t => new { t.Id });
                         j.ToTable("FilmSession");
                     });
 

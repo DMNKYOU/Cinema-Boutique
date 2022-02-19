@@ -93,26 +93,33 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
 
             modelBuilder.Entity("CinemaBoutique.Core.Models.FilmSession", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AvailableNumberSeats")
+                        .HasColumnType("int");
+
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<int>("FilmStripId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ShowDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("SessionPrice")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(10);
 
-                    b.Property<string>("Title")
+                    b.Property<DateTime>("ShowDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Title session");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2022, 2, 21, 12, 43, 17, 923, DateTimeKind.Local).AddTicks(4643));
 
-                    b.HasKey("CinemaId", "FilmStripId", "ShowDate");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinemaId");
 
                     b.HasIndex("FilmStripId");
 
@@ -132,11 +139,17 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.Property<string>("BriefDescription")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<int>("FilmDuration")
                         .HasColumnType("int");
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Genre")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductionCountry")
                         .HasColumnType("nvarchar(max)");
@@ -150,6 +163,34 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FilmStrips");
+                });
+
+            modelBuilder.Entity("CinemaBoutique.Core.Models.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FilmSessionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmSessionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -215,6 +256,10 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -266,6 +311,8 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -352,6 +399,13 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CinemaBoutique.Core.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("ActorFilmStrip", b =>
                 {
                     b.HasOne("CinemaBoutique.Core.Models.Actor", null)
@@ -384,6 +438,23 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.Navigation("Cinema");
 
                     b.Navigation("FilmStrip");
+                });
+
+            modelBuilder.Entity("CinemaBoutique.Core.Models.Ticket", b =>
+                {
+                    b.HasOne("CinemaBoutique.Core.Models.FilmSession", "FilmSession")
+                        .WithMany("Tickets")
+                        .HasForeignKey("FilmSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CinemaBoutique.Core.Models.User", "User")
+                        .WithMany("Tickets")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("FilmSession");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,9 +513,19 @@ namespace CinemaBoutique.DAL.EF.Data.Migrations
                     b.Navigation("FilmSessions");
                 });
 
+            modelBuilder.Entity("CinemaBoutique.Core.Models.FilmSession", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
             modelBuilder.Entity("CinemaBoutique.Core.Models.FilmStrip", b =>
                 {
                     b.Navigation("FilmSessions");
+                });
+
+            modelBuilder.Entity("CinemaBoutique.Core.Models.User", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

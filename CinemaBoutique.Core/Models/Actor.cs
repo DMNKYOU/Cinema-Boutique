@@ -14,8 +14,6 @@ namespace CinemaBoutique.Core.Models
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         public string Biography { get; set; }
-
-        //многие ко многим свзязь добавить
         public ICollection<FilmStrip> FilmStrips { get; set; } = new List<FilmStrip>();
     }
 }

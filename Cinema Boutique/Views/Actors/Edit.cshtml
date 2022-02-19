@@ -1,0 +1,68 @@
+﻿@model ActorModel
+
+@{
+    string action = null;
+    if (Model.Id != 0)
+    {
+        action = "Edit";
+    }
+    else
+    {
+        action = "Add";
+    }
+    ViewData["Title"] = $"{action} ";
+}
+<div class="content">
+    <h1>@action #@Model.Id</h1>
+    <div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form method="post" asp-controller="Actors" asp-action="Edit" asp-route-id="@Model.Id">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="mb-3 row">
+                        <label asp-for="FirstName" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="FirstName" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.FirstName)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="MiddleName" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="MiddleName" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.MiddleName)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="LastName" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="LastName" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.LastName)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" asp-for="Biography"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="Biography" required/>
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Biography)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="BirthDate" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="date" asp-for="BirthDate" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.BirthDate)</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success text-center">@action info</button>
+                </form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial.cshtml")
+}

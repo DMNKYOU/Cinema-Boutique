@@ -95,17 +95,17 @@ namespace Cinema_Boutique.Controllers
 
             //new List<FilmStrip>() { f1 }.ForEach(f => FilmStrips.Add(f));
             FilmStrips.Add(f1);
-            _context.SaveChanges();
+            //////_context.SaveChanges();
 
             new List<Cinema>() { a2 }.ForEach(f => Cinemas.Add(f));
-            _context.SaveChanges();
+            //////_context.SaveChanges();
 
             f1.Cinemas.Add(a2);
-            _context.SaveChanges();
+            //////_context.SaveChanges();
 
             FilmSession session1 = new FilmSession()
             {
-                Title = "Title session",
+                //Title = "Title session",
                 CinemaId = 7,
                 FilmStripId = 7,
                 SessionPrice = 10,
@@ -123,7 +123,7 @@ namespace Cinema_Boutique.Controllers
             //};
 
             new List<FilmSession>() { session1 }.ForEach(f => FilmSessions.Add(f));
-            _context.SaveChanges();
+            ////_context.SaveChanges();
 
 
             return View();

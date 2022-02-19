@@ -19,9 +19,12 @@ namespace CinemaBoutique.DAL.EF.Repositories
             _entities = context.Set<TEntity>();
         }
 
-        public async Task<IAsyncEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate)
+        public async Task<IEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate)
         {
-            return (await GetAllAsync()).Where(predicate).ToAsyncEnumerable();
+            return (await GetAllAsync())
+                .Where(predicate)
+                .AsQueryable()
+                .AsNoTracking();
         }
 
         public virtual async Task<TEntity> GetAsync(int id)
@@ -31,7 +34,10 @@ namespace CinemaBoutique.DAL.EF.Repositories
 
         public virtual async Task<List<TEntity>> GetAllAsync()
         {
-            return await _entities.AsQueryable().ToListAsync();
+            return await _entities
+                .AsQueryable()
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task CreateAsync(TEntity item)

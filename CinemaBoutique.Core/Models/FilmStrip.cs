@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CinemaBoutique.Core.Enums;
 
 namespace CinemaBoutique.Core.Models
 {
@@ -8,10 +9,9 @@ namespace CinemaBoutique.Core.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-
-        // public string Categ { get; set; }
-        // public enum Жанр { get; set; }
-        public int AgeLimit { get; set; } ////////////////
+        public CategoryType Category { get; set; }
+        public GenreType Genre { get; set; }
+        public int AgeLimit { get; set; } 
         public string BriefDescription { get; set; }
         public string FullDescription { get; set; }
         public string ProductionCountry { get; set; }

@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using CinemaBoutique.Core.Enums
+@inject IAuthorizationService AuthorizationService
+@model List<TicketModel>
+@{
+    ViewData["Title"] = "Tickets - BusStation";
+}
+
+<div class="text-center">
+    <h1 class="display-4">My tickets</h1>
+    <h1> </h1>
+</div>
+<table class="table text-center table-hover ">
+    <thead class="bg-primary">
+        <tr>
+            <th scope="col" class="text-light"></th>
+            <th scope="col" class="text-light">Cinema name</th>
+            <th scope="col" class="text-light">Seat</th>
+            <th scope="col" class="text-light">User</th>
+            <th scope="col" class="text-light">Status</th>
+            <th scope="col" class="text-light"></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td scope="col">#@item.Id</td>
+            <td scope="col">@item.FilmSession.Cinema.Name</td>
+            <td scope="col">@item.SeatNumber</td>
+            <td scope="col">@item.User.UserName</td>
+            <td scope="col">@item.Status</td>
+            @if (item.Status == Status.Reserved)
+            {
+                <td scope="col">
+                    <div class="btn-secondary">
+                        <a class="btn btn-secondary" asp-controller="Tickets" asp-action="BuyReservedTicket" asp-route-id="@item.Id">Buy</a>
+                    </div>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
