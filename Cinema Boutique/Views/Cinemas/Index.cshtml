@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model List<CinemaModel>
+@{
+    ViewData["Title"] = "Cinemas - Cinema Boutique";
+}
+
+<div class="text-center p-2">
+    <h1 class="display-4">Cinemas</h1>
+    <h1> </h1>
+</div>
+
+<table class="table text-center table-hover ">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Opening hours</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col"></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var cinema in Model)
+    {
+        <tr>
+            <th scope="col">@cinema.Id</th>
+            <th scope="col">@cinema.Name</th>
+            <th scope="col">@cinema.OpeningTime.ToString("HH:mm")-@cinema.ClosingTime.ToString("HH:mm")</th>
+            <th scope="col">@cinema.PhoneNumber</th>
+            <th scope="col">@cinema.Address, @cinema.Town</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th scope="col">
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            •••
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" asp-controller="Cinemas" asp-action="Edit" asp-route-id="@cinema.Id">Edit</a>
+                            <a class="dropdown-item" asp-controller="Cinemas" asp-action="Delete" asp-route-id="@cinema.Id">Delete</a>
+                        </div>
+                    </div>
+                </th>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+@if (User.IsInRole("Admin"))
+{
+    <div class="text-white">
+        <a class="btn btn-primary active" asp-controller="Cinemas" asp-action="Edit">Add new cinema</a>
+    </div>
+}

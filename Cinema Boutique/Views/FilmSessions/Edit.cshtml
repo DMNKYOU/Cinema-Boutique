@@ -1,0 +1,95 @@
+﻿@using CinemaBoutique.Core.Enums
+@using CinemaBoutique.Core.Models
+@model FilmSessionModel
+
+@{
+    string action = null;
+    if (Model.Id != 0)
+    {
+        action = "Edit";
+    }
+    else
+    {
+        action = "Add";
+    }
+    ViewData["Title"] = $"{action}";
+}
+
+<div class="content">
+    <h1>@action #@Model.Id</h1>
+    <div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form method="post" asp-controller="FilmSessions" asp-action="Edit" asp-route-id="@Model.Id">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="mb-3 row">
+                        <label asp-for="CinemaId" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" asp-for="CinemaId">
+                                @foreach (var teacher in (List<Cinema>)ViewBag.Cinemas)
+                                {
+                                    if (Model != null && teacher.Id == Model.CinemaId)
+                                    {
+                                        <option value="@teacher.Id" selected>@teacher.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@teacher.Id">@teacher.Name</option>
+}
+                                }
+                            </select>
+                            <span asp-validation-for="CinemaId" class="alert-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="FilmStripId" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" asp-for="FilmStripId">
+                                @foreach (var teacher in (List<FilmStrip>)ViewBag.FilmStrips)
+                                {
+                                    if (Model != null && teacher.Id == Model.FilmStripId)
+                                    {
+                                        <option value="@teacher.Id" selected>@teacher.Title</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@teacher.Id">@teacher.Title</option>
+}
+                                }
+                            </select>
+                            <span asp-validation-for="CinemaId" class="alert-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ShowDate" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="datetime-local" asp-for="ShowDate" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.ShowDate)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" asp-for="SessionPrice"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="number" asp-for="SessionPrice" aria-valuemin="1" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.SessionPrice)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" asp-for="AvailableNumberSeats"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="number" asp-for="AvailableNumberSeats" aria-valuemin="0"step="1" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.AvailableNumberSeats)</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success text-center">@action info</button>
+                </form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial.cshtml")
+}

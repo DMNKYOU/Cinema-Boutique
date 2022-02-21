@@ -1,0 +1,73 @@
+﻿@model CinemaModel
+
+@{
+    string action = null;
+    if (Model.Id != 0)
+    {
+        action = "Edit";
+    }
+    else
+    {
+        action = "Add";
+    }
+    ViewData["Title"] = $"{action}";
+}
+<div class="content">
+    <h1>@action #@Model.Id</h1>
+    <div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form method="post" asp-controller="Cinemas" asp-action="Edit" asp-route-id="@Model.Id">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="mb-3 row">
+                        <label asp-for="Name" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="Name" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Name)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label" asp-for="PhoneNumber"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="PhoneNumber" required/>
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.PhoneNumber)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Working hours</label>
+                        <div class="form-group col-sm-4">
+                            <label class="sr-only"></label>
+                            <input class="form-control input-group-lg" type="time" asp-for="OpeningTime" required />
+                        </div>
+                        <label class="col-sm-1 col-form-label">—</label>
+                        <div class="form-group col-sm-4">
+                            <label class="sr-only"></label>
+                            <input class="form-control input-group-lg" type="time" asp-for="ClosingTime" required />
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Address" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="Address" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Address)</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Town" class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" asp-for="Town" required />
+                            <span class="alert-danger"> @Html.ValidationMessageFor(model => model.Town)</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success text-center">@action info</button>
+                </form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial.cshtml")
+}

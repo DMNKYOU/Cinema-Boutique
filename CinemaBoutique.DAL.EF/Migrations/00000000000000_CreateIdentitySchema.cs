@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Cinema_Boutique.Data.Migrations
+namespace CinemaBoutique.DAL.EF.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

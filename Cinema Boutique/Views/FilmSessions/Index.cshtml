@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using CinemaBoutique.Core.Enums
+@inject IAuthorizationService AuthorizationService
+@model List<FilmSessionModel>
+@{
+    var previous = "";
+    ViewData["Title"] = "Sessions - Cinema Boutique";
+}
+
+<div class="text-center p-2">
+    <h1 class="display-4">Sessions</h1>
+    <h1> </h1>
+</div>
+
+<table class="table table-hover ">
+    <thead>
+        <tr>
+            @*<th scope="col">#</th>*@
+            <th scope="col">Film</th>
+            <th scope="col">Cinema</th>
+            <th scope="col">Show date</th>
+            <th scope="col">Available</th>
+            <th scope="col">Price</th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <th scope="col" class="text-light"></th>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <th scope="col" class="text-light"></th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var sessions in Model)
+    {
+        <tr>
+            @*<th scope="col">@sessions.Id</th>*@
+            <th scope="col">
+                @if (!sessions.FilmName.Equals(previous))
+                {
+                    @sessions.FilmName;
+                }
+            </th>
+            <th scope="col" class="text-left">@sessions.Cinema.Name</th>
+            <th scope="col">@sessions.ShowDate.ToString("g")</th>
+            <th scope="col">@sessions.AvailableNumberSeats</th>
+            <th scope="col">@sessions.SessionPrice $</th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (sessions.AvailableNumberSeats >= 1)
+                {
+                    <td scope="col" class="text-center">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <div class="btn-secondary">
+                                <a class="btn btn-secondary" asp-controller="Tickets" asp-action="BuyTicket" asp-route-filmSessionId="@sessions.Id" asp-route-idStatusOrder="@((int)Status.BoughtOut)">Buy</a>
+                            </div>
+                            <div class="btn-secondary">
+                                <a class="btn btn-secondary" asp-controller="Tickets" asp-action="BuyTicket" asp-route-filmSessionId="@sessions.Id" asp-route-idStatusOrder="@((int)Status.Reserved)">Reserve</a>
+                            </div>
+                        </div>
+                    </td>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <th scope="col" class="text-center">
+                        <div class="btn-group text-right" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                •••
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" asp-controller="FilmSessions" asp-action="Edit" asp-route-id="@sessions.Id">Edit</a>
+                                <a class="dropdown-item" asp-controller="FilmSessions" asp-action="Delete" asp-route-id="@sessions.Id">Delete</a>
+                            </div>
+                        </div>
+                    </th>
+                }
+            }
+        </tr>
+        previous = sessions.FilmName;
+    }
+    </tbody>
+</table>
+@if (User.IsInRole("Admin"))
+{
+    <div class="text-white text-center">
+        <a class="btn btn-primary active" asp-controller="FilmSessions" asp-action="Edit">Add new session</a>
+    </div>
+}
